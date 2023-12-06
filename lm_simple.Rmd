@@ -1,0 +1,76 @@
+<!--% Voici un exemple de modèle pour relever le challenge "models". Copiez ce document sous le nom de votre propre modèle, éditez-le, développez votre modèle et soumettez vos résultats (voir aussi README.md). Bonnes chances ! -->
+
+<!--% Donner un nom à votre modèle ici (pour plus de facilité, utilisez le même nom que celui que vous avez donné à ce fichier .Rmd). N'OUBLIEZ PAS DE MODIFIER CE NOM A CHAQUE NOUVELLE ITERATION et utilisez uniquement des lettres a-z, A-Z, des chiffres 0-9, un trait souligné (_) ou un signe moins (-). -->
+
+```{r model_name, echo=FALSE}
+model_name <- "lm_simple"
+```
+
+<!--% Indiquez votre login GitHub ci-dessous (remplacer 'login' par votre propre login Github). -->
+
+```{r authors_logins, echo=FALSE}
+authors_logins <- "login"
+```
+
+```{r setup, echo=FALSE,include=FALSE}
+SciViews::R("model", lang = "fr")
+
+# Nom du dépôt
+repos <- sub("\\.git$", "", basename(git2r::remote_url()))
+# Importation des deux jeux de données
+train <- read("data/train.rds")
+test <- read("data/test.rds")
+```
+
+<!--% Ne touchez pas à l'entête YAML ci-dessous : elle sera générée automatiquement à partir des autres informations du document. -->
+
+---
+title: "`r paste(model_name, repos, sep = " - ")`"
+date: "`r Sys.time()`"
+author: "`r authors_logins`"
+output: html_notebook
+---
+
+## Résumé
+
+<!--% Décrivez ici dans les grandes lignes (2-3), les options mises en œuvre dans votre modèle pour en augmenter les performances par rapport au modèle de base proposé. -->
+
+
+
+## Description des données
+
+<!--% Effectuez ici les statistiques descriptives qui vous sont nécessaires pour appréhender les données, sans toutefois vous éterniser trop dessus (10min max). -->
+
+
+
+## Modèle
+
+<!--% Placez ici le code qui génère votre modèle et commentez-le brièvement. Appelez toujours votre modèle `my_model` ! -->
+
+```{r learning}
+set.seed(7463) # ATTENTION: utilisez ici un nombre différent pour chaque modèle !
+my_model <- lm(data = train, mortality ~ dose)
+```
+
+<!--% Effectuez ci-dessous toutes les analyses complémentaires que vous jugez utiles pour vérifier votre modèle et commentez-les (ci-dessous seulement un exemple de tableau et de graphique). -->
+
+```{r diagnostic}
+summary(my_model) |> tabularise()
+```
+
+```{r residuals}
+chart$residuals(my_model)
+```
+
+
+
+## Test et soumission de votre proposition
+
+<!--% Pour utiliser votre modèle afin de prédire la mortalité des abeilles à partir du jeu de données `test` et enregistrer les résultats dans `results/<repos>__<model_name>.rds`, exécutez le chunk suivant SANS LE MODIFIER. Ensuite soumettez vos résultats qui sont dans ce fichier à partir de l'app Shiny <https://sdd.umons.ac.be/B05Ca_models/> (voir aussi dans le cours en ligne à la section correspondante). -->
+
+```{r results}
+results <- predict(my_model, newdata = test)
+res_file <- glue::glue("{repos}__{model_name}.rds")
+write$rds(results, fs::path("results", res_file))
+message("Soumettre : results/", res_file)
+```
