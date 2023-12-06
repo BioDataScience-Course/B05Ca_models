@@ -58,8 +58,8 @@ my_model <- lm(data = train, mortality ~ dose)
 summary(my_model) |> tabularise()
 ```
 
-```{r residuals}
-chart$residuals(my_model)
+```{r residuals, error=TRUE}
+try(chart$residuals(my_model))
 ```
 
 
