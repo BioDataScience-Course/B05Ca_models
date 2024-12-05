@@ -1,0 +1,87 @@
+---
+title: "Challenge modélisation"
+author: "___"
+date: "`r Sys.Date()`"
+format:
+  html:
+    code-fold: true
+    code-tools: true
+    toc: true
+editor: visual
+lang: fr
+---
+
+<!--% Indiquez votre login GitHub ci-dessous (remplacer "login" par votre propre login Github sans rien changer d'autre). -->
+
+```{r authors_logins, echo=FALSE}
+authors_logins <- "login"
+```
+
+<!--% Donner un nom à votre modèle ici (remplacez "modele1" par le nom de votre modèle sans rien changer d'autre). N'OUBLIEZ PAS DE MODIFIER CE NOM A CHAQUE NOUVELLE ITERATION et utilisez uniquement des lettres a-z, A-Z, des chiffres 0-9, un trait souligné (_) ou un signe moins (-). -->
+
+```{r model_name, echo=FALSE}
+model_name <- "modele1"
+```
+
+<!--% Ne modifiez rien dans le chunk ci-dessous. -->
+
+```{r setup, echo=FALSE,include=FALSE}
+SciViews::R("model", lang = "fr")
+
+# Nom du dépôt
+repos <- sub("\\.git$", "", basename(git2r::remote_url()))
+# Importation du jeu de données
+babblers <- read("data/babblers.rds")
+```
+
+## Résumé
+
+<!--% Décrivez ici en une courte phrase, les options mises en œuvre dans votre modèle. -->
+
+## Description des données
+
+<!--% Effectuez ici les statistiques descriptives qui vous sont nécessaires pour appréhender les données, sans toutefois vous éterniser trop dessus (10min max). -->
+
+## Modèle
+
+<!--% Placez ici le code qui génère votre modèle et commentez-le brièvement. APPELEZ TOUJOURS VOTRE MODELE `my_model`, c'est très important ! -->
+
+```{r model}
+my_model <- ___
+```
+
+<!--% Effectuez ci-dessous toutes les analyses complémentaires que vous jugez utiles pour vérifier votre modèle et commentez-les (ci-dessous seulement un exemple de tableau et de graphique). -->
+
+```{r diagnostic}
+summary(my_model) |> tabularise()
+```
+
+Le critère d'Akaike pour ce modèle est :
+
+```{r aic}
+AIC(my_model)
+```
+
+En voici l'analyse des résidus :
+
+```{r residuals, error=TRUE}
+# Note : l'analyse des résidus n'est pas pertinente pour tous les modèles
+# le code est protégé en cas d'erreur, mais c'est à vous de déterminer
+# si cette analyse est pertinente pour votre modèle
+try(chart$residuals(my_model))
+```
+
+## Test et soumission de votre proposition
+
+<!--% Pour utiliser votre modèle afin de prédire le nourrissage des oisillons et enregistrer les résultats dans `results/<repos>__<model_name>.rds`, exécutez le chunk suivant SANS LE MODIFIER. Ensuite soumettez vos résultats qui sont dans ce fichier à partir de l'app Shiny <https://sdd.umons.ac.be/B05Ca_models/> (voir aussi dans le cours en ligne à la section correspondante). -->
+
+```{r results}
+results <- AIC(my_model)
+if (!is.null(results) || is.numeric(results) || is.finite(results)) {
+  res_file <- glue::glue("{repos}__{model_name}.rds")
+  write$rds(results, fs::path("results", res_file))
+  message("Soumettre : results/", res_file)
+} else {
+  message("Votre modèle ne permet pas d'obtenir un critère d'Akaike valide !")
+}
+```
