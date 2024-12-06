@@ -11,6 +11,8 @@ editor: visual
 lang: fr
 ---
 
+<!--# Ne fonctionne pas bien car si on modélise une autre variable, réduit les données, utilise Feeding aussi comme prédicteur, cherche totalement au hasard tout et n'importe quoi... on fini par optimiser l'AIC, et ce, sans même regarder ce qu'il y a dans le tableau résumé, et donc, sans restreindre aux varaibles significatives !!!! -> ajouter des garde-fous. -->
+
 <!--% Indiquez votre login GitHub ci-dessous (remplacer "login" par votre propre login Github sans rien changer d'autre). -->
 
 ```{r authors_logins, echo=FALSE}
